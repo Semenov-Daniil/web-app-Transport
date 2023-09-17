@@ -51,13 +51,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     )
                     . Html::endForm()
                     . '</li>',
-            ['label' => 'Блюда', 'url' => ['/dishes/index']],
-            ['label' => 'Состав', 'url' => ['/composition/index']],
-            ['label' => 'Продукты', 'url' => ['/products/index']],
-            ['label' => 'Пассировка овощей', 'url' => ['/site/vegetables-passirovka']],
-            ['label' => 'Калорийность блюда', 'url' => ['/site/calorie']],
-            ['label' => 'Блюдо с наибольшой пряностью', 'url' => ['/site/spices']],
-            ['label' => 'Первое блюдо', 'url' => ['/site/list-first-dishes']],
+            ['label' => 'Транспорт', 'url' => ['/transport/index']],
+            ['label' => 'Маршрут', 'url' => ['/route/index']],
+            ['label' => 'Путь', 'url' => ['/road/index']],
+            ['label' => 'Оптимальный маршрут', 'url' => ['/site/form-optimal-route']],
+            ['label' => 'Троллейбус', 'url' => ['/site/form-waiting-trolleybus']],
+            ['label' => 'Трамваи', 'url' => ['/site/tram-routes']],
+            ['label' => 'Прибыль', 'url' => ['/site/profit']],
         ];
     }
     echo Nav::widget([
@@ -81,7 +81,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
         <div class="row text-muted">
-            <div class="col-md-6 text-center text-md-start">&copy; Кулинария <?= date('Y') ?></div>
+            <div class="col-md-6 text-center text-md-start">&copy; Городской транспорт <?= date('Y') ?></div>
             <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
         </div>
     </div>

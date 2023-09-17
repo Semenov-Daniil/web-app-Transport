@@ -11,7 +11,12 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\RegisterForm;
+use app\models\Road;
+use app\models\Route;
+use app\models\Station;
+use app\models\Transport;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 
 class SiteController extends Controller
 {
@@ -147,47 +152,63 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionVegetablesPassirovka()
+    public function actionFormOptimalRoute()
     {
-        $provider = new ArrayDataProvider([
-            'allModels' => Composition::vegetablesPassirovka(),
-            'pagination' => false,
-        ]);
-        return $this->render('vegetables-passirovka', [
-            'dataProvider' => $provider,
-        ]);
+        $model = new Road();
+
+        if (Yii::$app->request->isPost) {
+            $start = Yii::$app->request->post()['Road']['start_station_id'];
+            $end = Yii::$app->request->post()['Road']['final_station_id'];
+            $query = Route::getOptimalRoute($start, $end);
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $query,
+                'pagination' => false,
+            ]);
+            return $this->render('view-optimal-route', ['dataProvider' => $dataProvider]);
+        }
+
+        $listStart = ArrayHelper::map(Station::find()->orderBy('title')->all(), 'id', 'title');
+        $listEnd = ArrayHelper::map(Station::find()->orderBy('title')->all(), 'id', 'title');
+        return $this->render('form-optimal-route', ['model' => $model, 'listStart' => $listStart, 'listEnd' => $listEnd]);
     }
 
-    public function actionCalorie()
+    public function actionFormWaitingTrolleybus()
     {
-        $provider = new ArrayDataProvider([
-            'allModels' => Composition::calorie(),
-            'pagination' => false,
-        ]);
-        return $this->render('calorie', [
-            'dataProvider' => $provider,
-        ]);
+        $model = new Route();
+
+        if (Yii::$app->request->isPost) {
+            $number = Yii::$app->request->post()['Route']['route_number'];
+            $query = Route::getWaitingTrolleybus($number);
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $query,
+                'pagination' => false,
+            ]);
+            return $this->render('view-waiting-trolleybus', ['dataProvider' => $dataProvider]);
+        }
+
+        $listNumber = ArrayHelper::map(Route::find()->innerJoin('transport', 'transport.id = route.transport_id')->where(['transport.type' => 'Троллейбус'])->orderBy('route_number')->all(), 'route_number', 'route_number');
+        return $this->render('form-waiting-trolleybus', ['model' => $model, 'listNumber' => $listNumber]);
     }
 
-    public function actionSpices()
+    public function actionTramRoutes()
     {
-        $provider = new ArrayDataProvider([
-            'allModels' => Composition::spices(),
+        $query = Route::getTramRoutes();
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $query,
             'pagination' => false,
         ]);
-        return $this->render('spices', [
-            'dataProvider' => $provider,
-        ]);
+        return $this->render('tram-routes', ['dataProvider' => $dataProvider]);
     }
 
-    public function actionListFirstDishes()
+    public function actionProfit()
     {
-        $provider = new ArrayDataProvider([
-            'allModels' => Composition::listFirstDishes(),
+        $query = Route::getProfit();
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $query,
             'pagination' => false,
         ]);
-        return $this->render('list-first-dishes', [
-            'dataProvider' => $provider,
-        ]);
+        return $this->render('profit', ['dataProvider' => $dataProvider]);
     }
+
+    
 }

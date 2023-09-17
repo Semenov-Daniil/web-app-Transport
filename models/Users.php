@@ -22,7 +22,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function tableName()
     {
-        return 'users';
+        return 'user';
     }
 
     /**
