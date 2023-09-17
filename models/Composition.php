@@ -78,4 +78,62 @@ class Composition extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Products::class, ['id' => 'products_id']);
     }
+
+    public static function vegetablesPassirovka()
+    {
+        return static::find()
+            ->select([
+                'dishes.title as dishes_title', 'products.title as products_title', 'products.category', 'pre_processing' 
+            ])
+            ->innerJoin('dishes', 'dishes.id = composition.dishes_id')
+            ->innerJoin('products', 'products.id = composition.products_id')
+            ->where(['products.category' => 'овощи'])
+            ->andWhere(['pre_processing' => 'пассировка'])
+            ->orderBy('dishes.title')
+            ->asArray()
+            ->all();
+    }
+
+    public static function calorie()
+    {
+        return static::find()
+            ->select([
+                'dishes.title', 'SUM((products.calories*quantity)/many_portions) as calorie'
+            ])
+            ->innerJoin('dishes', 'dishes.id = composition.dishes_id')
+            ->innerJoin('products', 'products.id = composition.products_id')
+            ->groupBy('title', 'calorie')
+            ->orderBy('dishes.title')
+            ->asArray()
+            ->all();
+    }
+
+    public static function spices()
+    {
+        return static::find()
+            ->select([
+                'dishes.title as dishes', 'count(products.title) as products'
+            ])
+            ->innerJoin('dishes', 'dishes.id = composition.dishes_id')
+            ->innerJoin('products', 'products.id = composition.products_id')
+            ->where(['products.category' => 'пряность'])
+            ->groupBy('dishes', 'products')
+            ->orderBy('products DESC')
+            ->asArray()
+            ->all();
+    }
+
+    public static function listFirstDishes()
+    {
+        return static::find()
+            ->select([
+                'dishes.title as dishes', 'dishes.category', 'products.title as products', 'priority'
+            ])
+            ->innerJoin('dishes', 'dishes.id = composition.dishes_id')
+            ->innerJoin('products', 'products.id = composition.products_id')
+            ->where(['dishes.category' => 'первое блюдо'])
+            ->orderBy('dishes.title, priority')
+            ->asArray()
+            ->all();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Psy\TabCompletion\Matcher\FunctionDefaultParametersMatcher;
 use Yii;
 
 /**
