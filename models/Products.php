@@ -45,11 +45,11 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'calories' => 'Calories',
-            'category' => 'Category',
-            'price' => 'Price',
-            'measurements' => 'Measurements',
+            'title' => 'Название',
+            'calories' => 'Калорийность',
+            'category' => 'Категория продукта',
+            'price' => 'Цена за 1',
+            'measurements' => 'Единица измерения',
         ];
     }
 

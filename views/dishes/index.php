@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var app\models\DishesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Dishes';
+$this->title = 'Блюдо';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dishes-index">
@@ -18,10 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Dishes', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать Блюдо', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'title',
             'category',
             'weight',

@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\RegisterForm;
 
 class SiteController extends Controller
 {
@@ -112,6 +113,20 @@ class SiteController extends Controller
             return $this->refresh();
         }
         return $this->render('contact', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionRegister()
+    {
+        $model = new RegisterForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->userRegister()) {
+                Yii::$app->user->login($user);
+                return $this->goHome();
+            }
+        }
+        return $this->render('register', [
             'model' => $model,
         ]);
     }

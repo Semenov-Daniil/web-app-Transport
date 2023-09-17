@@ -15,23 +15,21 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
     <?= $form->field($model, 'dishes_id') ?>
 
+    <?php echo $form->field($model, 'products_id') ?>
     <?= $form->field($model, 'quantity') ?>
 
-    <?= $form->field($model, 'pre-processing') ?>
+    <?= $form->field($model, 'pre_processing') ?>
 
     <?= $form->field($model, 'many_portions') ?>
 
-    <?php // echo $form->field($model, 'priority') ?>
+    <?php echo $form->field($model, 'priority') ?>
 
-    <?php // echo $form->field($model, 'products_id') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Очистить', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

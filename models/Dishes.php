@@ -45,10 +45,10 @@ class Dishes extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'category' => 'Category',
-            'weight' => 'Weight',
-            'recipe' => 'Recipe',
+            'title' => 'Название',
+            'category' => 'Категория блюда',
+            'weight' => 'Вес блюда',
+            'recipe' => 'Рецепт',
         ];
     }
 

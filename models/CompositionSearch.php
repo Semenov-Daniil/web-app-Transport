@@ -19,7 +19,7 @@ class CompositionSearch extends Composition
         return [
             [['id', 'dishes_id', 'many_portions', 'priority', 'products_id'], 'integer'],
             [['quantity'], 'number'],
-            [['pre-processing'], 'safe'],
+            [['pre_processing'], 'string', 'max' => 255],
         ];
     }
 
@@ -67,7 +67,7 @@ class CompositionSearch extends Composition
             'products_id' => $this->products_id,
         ]);
 
-        $query->andFilterWhere(['like', 'pre-processing', $this->pre-processing]);
+        $query->andFilterWhere(['like', 'pre_processing', $this->pre_processing]);
 
         return $dataProvider;
     }

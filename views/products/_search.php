@@ -15,8 +15,6 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
     <?= $form->field($model, 'title') ?>
 
     <?= $form->field($model, 'calories') ?>
@@ -25,11 +23,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price') ?>
 
-    <?php // echo $form->field($model, 'measurements') ?>
+    <?php echo $form->field($model, 'measurements') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Очистить', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -36,24 +36,29 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'brandUrl' => Yii::$app->homeUrl,
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Блюда', 'url' => ['/dishes/index']],
-            ['label' => 'Состав', 'url' => ['/composition/index']],
-            ['label' => 'Продукты', 'url' => ['/products/index']],
-            Yii::$app->user->isGuest
-                ? ['label' => 'Login', 'url' => ['/site/login']]
-                : '<li class="nav-item">'
+    if (Yii::$app->user->isGuest) {
+        $items = [
+            ['label' => 'Регистрация', 'url' => ['/site/register']],
+            ['label' => 'Вход', 'url' => ['/site/login']]
+        ];
+    } else {
+        $items = [
+            '<li class="nav-item">'
                     . Html::beginForm(['/site/logout'])
                     . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        'Выход (' . Yii::$app->user->identity->login . ')',
                         ['class' => 'nav-link btn btn-link logout']
                     )
                     . Html::endForm()
-                    . '</li>'
-        ]
+                    . '</li>',
+            ['label' => 'Блюда', 'url' => ['/dishes/index']],
+            ['label' => 'Состав', 'url' => ['/composition/index']],
+            ['label' => 'Продукты', 'url' => ['/products/index']],
+        ];
+    }
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => $items,
     ]);
     NavBar::end();
     ?>

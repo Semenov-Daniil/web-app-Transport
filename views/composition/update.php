@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Composition $model */
 
-$this->title = 'Update Composition: ' . $model->id;
+$this->title = 'Обновить запись Состав: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Compositions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Обновить';
 ?>
 <div class="composition-update">
 
