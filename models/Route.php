@@ -98,7 +98,7 @@ class Route extends \yii\db\ActiveRecord
     {
         return static::find()
             ->select([
-                'route_number', '(road.distance/transport.avg_speed)/number_of_stop as time', '(road.distance/transport.avg_speed) as alltime', 'number_of_stop as stops'
+                'route_number', '(road.distance/transport.avg_speed)/number_of_stop as time_in_stops', '(road.distance/transport.avg_speed) as alltime', 'number_of_stop as stops'
             ])
             ->innerJoin('road', 'road.id = route.road_id')
             ->innerJoin('transport', 'transport.id = route.transport_id')

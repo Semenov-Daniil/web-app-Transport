@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Номер маршрута'
             ],
             [
-                'attribute' => 'time',
+                'attribute' => 'time_in_stops',
                 'label' => 'Время ожидание на остановке'
             ],
             [
@@ -41,4 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <?=Html::a('Экспорт1', ['site/export1', 'title' => 'waiting_trolleybus'], ['class' => 'btn btn-primary']);?>
+    <?=Html::a('Экспорт2', ['site/export2', 'title' => 'waiting_trolleybus'], ['class' => 'btn btn-primary']);?>
 </div>

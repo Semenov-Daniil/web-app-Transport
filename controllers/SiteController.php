@@ -160,6 +160,7 @@ class SiteController extends Controller
             $start = Yii::$app->request->post()['Road']['start_station_id'];
             $end = Yii::$app->request->post()['Road']['final_station_id'];
             $query = Route::getOptimalRoute($start, $end);
+            (Yii::$app->session)['array'] = $query;
             $dataProvider = new ArrayDataProvider([
                 'allModels' => $query,
                 'pagination' => false,
@@ -179,6 +180,7 @@ class SiteController extends Controller
         if (Yii::$app->request->isPost) {
             $number = Yii::$app->request->post()['Route']['route_number'];
             $query = Route::getWaitingTrolleybus($number);
+            (Yii::$app->session)['array'] = $query;
             $dataProvider = new ArrayDataProvider([
                 'allModels' => $query,
                 'pagination' => false,
@@ -193,6 +195,7 @@ class SiteController extends Controller
     public function actionTramRoutes()
     {
         $query = Route::getTramRoutes();
+        (Yii::$app->session)['array'] = $query;
         $dataProvider = new ArrayDataProvider([
             'allModels' => $query,
             'pagination' => false,
@@ -203,6 +206,7 @@ class SiteController extends Controller
     public function actionProfit()
     {
         $query = Route::getProfit();
+        (Yii::$app->session)['array'] = $query;
         $dataProvider = new ArrayDataProvider([
             'allModels' => $query,
             'pagination' => false,
@@ -210,5 +214,80 @@ class SiteController extends Controller
         return $this->render('profit', ['dataProvider' => $dataProvider]);
     }
 
-    
+    public function actionExport1()
+    {
+        $list = (Yii::$app->session)['array'];
+        $fileName = Yii::$app->request->get('title') . '.cvs';
+        
+        $fp = fopen(Yii::getAlias('@app') . '\export_file\\' . $fileName, 'w+');
+
+        if ($list) {
+            fputcsv($fp, $this->lable(array_keys($list[0])), ';');
+            foreach ($list as $fields) {
+                fputcsv($fp, $fields, ';');
+            }
+        }
+
+
+        fclose($fp);
+
+        $filePath = Yii::getAlias('@app') . '\export_file\\' . $fileName;
+        // $fileName = 'file.csv';
+
+        $response = Yii::$app->response;
+        $response->format = Response::FORMAT_RAW;
+        $response->headers->add('Content-Type', 'text/csv');
+        $response->headers->add('Content-Disposition', "attachment; filename=$fileName");
+
+        $response->sendFile($filePath)->send();
+    }
+
+    public function actionExport2()
+    {
+        $list = (Yii::$app->session)['array'];
+        $fileName = Yii::$app->request->get('title') . '.cvs';
+        $test = '';
+
+        if ($list) {
+            $text = implode(';', $this->lable(array_keys($list[0]))) . PHP_EOL;
+            
+            foreach ($list as $fields) {
+                $text .= implode(';', $fields) . PHP_EOL;
+            }
+        }
+
+        $response = Yii::$app->response;
+
+        $response->headers->add('Content-Type', 'text/csv');
+        $response->headers->add('Content-Disposition', "attachment; filename=$fileName");
+
+        $response->sendContentAsFile($text, $fileName)->send();
+    }
+
+    public function lable($array)
+    {
+        $lable = [
+            'route_number' => 'Номер маршрута',
+            'time_in_stops' => 'Время ожидание на остановке',
+            'alltime' => 'Время маршрута',
+            'stops' => 'Количество остановок',
+            'start' => 'Начальный пункт',
+            'end' => 'Конечный пункт',
+            'time' => 'Время',
+            'distance' => 'Дистанция',
+            'profit' => 'Прибыль',
+            'type' => 'Транспорт',
+        ];
+
+        foreach ($array as $key => $val) {
+            foreach ($lable as $key2 => $val2) {
+                if ($val == $key2) {
+                    $array[$key] = $val2;
+                    continue;
+                }
+            }
+        }
+
+        return $array;
+    }
 }
